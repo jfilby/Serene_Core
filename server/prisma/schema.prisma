@@ -1,0 +1,317 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["public"]
+}
+
+// NextAuth
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@schema("public")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+
+  accounts          Account[]
+  sessions          Session[]
+
+  // Link to UserProfile
+  userProfiles      UserProfile[]
+
+  @@schema("public")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@schema("public")
+}
+
+// Serene Core
+
+// User Management (non-NextAuth)
+model ExternalUserIntegration {
+  id                         String          @id @default(cuid())
+  userProfileId              String          @map("user_profile_id")
+  userProfile                UserProfile     @relation(fields: [userProfileId], references: [id])
+  externalIntegrationUserId  String          @map("external_integration_user_id")
+  externalIntegration        String          @map("external_integration")
+
+  @@index([userProfileId])
+  @@unique([externalIntegrationUserId, externalIntegration])
+  @@map("external_user_integration")
+  @@schema("public")
+}
+
+model UserGroup {
+  id                        String          @id @default(cuid())
+  ownerUserProfileId        String          @map("owner_user_profile_id")
+  ownerUserProfile          UserProfile     @relation(fields: [ownerUserProfileId], references: [id])
+  name                      String          @unique
+  created                   DateTime        @default(now())
+  updated                   DateTime        @updatedAt
+
+  ofUserGroupMembers        UserGroupMember[]
+
+  @@unique([ownerUserProfileId, name], name: "user_group_uq")
+  @@map("user_group")
+  @@schema("public")
+}
+
+model UserGroupMember {
+  id                        String          @id @default(cuid())
+  userGroupId               String          @map("user_group_id")
+  userGroup                 UserGroup       @relation(fields: [userGroupId], references: [id])
+  userProfileId             String          @map("user_profile_id")
+  userProfile               UserProfile     @relation(fields: [userProfileId], references: [id])
+  isGroupAdmin              Boolean         @map("is_group_admin")
+  created                   DateTime        @default(now())
+
+  @@unique([userProfileId, userGroupId], name: "user_group_member_uq")
+  @@map("user_group_member")
+  @@schema("public")
+}
+
+model UserPreference {
+  id                        String          @id @default(cuid())
+  userProfileId             String          @map("user_profile_id")
+  userProfile               UserProfile     @relation(fields: [userProfileId], references: [id])
+  category                  String
+  key                       String
+  value                     String?
+  values                    String[]
+  created                   DateTime        @default(now())
+
+  @@unique([userProfileId, key], name: "user_preference_uq")
+  @@map("user_preference")
+  @@schema("public")
+}
+
+model UserProfile {
+  id                        String        @id @default(cuid())
+  userId                    String?       @map("user_id") @unique // Map to NextAuth's User model
+  user                      User?         @relation(fields: [userId], references: [id])
+  isAdmin                   Boolean       @map("is_admin")
+  ownerType                 String?       @map("owner_type")
+  roles                     String[]
+  created                   DateTime      @default(now())
+  updated                   DateTime      @updatedAt
+  deletePending             DateTime?     @map("delete_pending")  // Start date/time of delete pending
+
+  ofExternalUserIntegrations  ExternalUserIntegration[]
+  ofInstances                 Instance[]
+  ofRateLimitedApiEvents      RateLimitedApiEvent[]
+  ofResourceQuotaTotals       ResourceQuotaTotal[]
+  ofResourceQuotaUsages       ResourceQuotaUsage[]
+  ofTipGotIts                 TipGotIt[]
+  ofUserGroups                UserGroup[]
+  ofUserGroupMembers          UserGroupMember[]
+  ofUserPreferences           UserPreference[]
+
+  @@map("user_profile")
+  @@schema("public")
+}
+
+// Instances
+
+model Instance {
+  // An instance is a project
+  id                           String               @id @default(cuid())
+  parentId                     String?              @map("parent_id")
+  parent                       Instance?            @relation("parent", fields: [parentId], references: [id])
+  userProfileId                String               @map("user_profile_id")
+  userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
+  status                       String               @db.Char(1)
+  name                         String
+  created                      DateTime             @default(now())
+  updated                      DateTime             @updatedAt
+  // Additional fields (should be moved to InstanceSetting)
+  instanceType                 String               @map("instance_type") @db.Char(1)  // P (project), E (environment)
+  projectType                  String?              @map("project_type")               // Char 1: B (back-end), A (app), W (web-app), char 2: L (library)?
+  isDefault                    Boolean              @map("is_default")
+  isDemo                       Boolean              @map("is_demo")
+  publicAccess                 String?              @map("public_access") @db.Char(1)  // E.g. R/W
+  basePathDocNodeId            String?              @map("base_path_doc_node_id")
+  // basePathDocNode              DocNode?             @relation("base_path", fields: [basePathDocNodeId], references: [id])
+  envVersionBranchId           String?              @map("env_version_branch_id")
+  // envVersionBranch             VersionBranch?       @relation("env_version_branch", fields: [envVersionBranchId], references: [id])
+
+  ofInstances                  Instance[]           @relation("parent")
+
+  @@unique([userProfileId, parentId, name])
+  @@map("instance")
+  @@schema("public")
+}
+
+// Generic tech
+model RateLimitedApi {
+  id                           String               @id @default(cuid())
+  techId                       String?              @map("tech_id")
+  tech                         Tech?                @relation(fields: [techId], references: [id])
+  ratePerMinute                Int                  @map("rate_per_minute")
+
+  ofRateLimitedApiEvents       RateLimitedApiEvent[]
+
+  @@map("rate_limited_api")
+  @@schema("public")
+}
+
+model RateLimitedApiEvent {
+  // Using a separate table from ChatMessage, because ChatMessage is populated
+  // after the LLM API returns, but the rate limited event should be tracked
+  // from just before the API call is made.
+  id                           String               @id @default(cuid())
+  rateLimitedApiId             String               @map("api_rate_limited_id")
+  rateLimitedApi               RateLimitedApi       @relation(fields: [rateLimitedApiId], references: [id])
+  userProfileId                String               @map("user_profile_id")
+  userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
+  created                      DateTime             @default(now())
+
+  @@index([created])
+  @@map("rate_limited_api_event")
+  @@schema("public")
+}
+
+model ResourceQuotaTotal {
+  // TODO: set the total quota monthly by looking at the Serene Store payment
+  // records for the past 31 days. Used quota is kept at a daily level.
+  id                         String         @id @default(cuid())
+  userProfileId              String         @map("user_profile_id")
+  userProfile                UserProfile    @relation(fields: [userProfileId], references: [id])
+  resource                   String         // E.g. LLMs
+  fromDay                    DateTime       @map("from_day") @db.Date
+  toDay                      DateTime       @map("to_day") @db.Date
+  quota                      Float          // In cents
+
+  @@unique([userProfileId, resource, fromDay, toDay])
+  @@map("resource_quota_total")
+  @@schema("public")
+}
+
+model ResourceQuotaUsage {
+  id                         String         @id @default(cuid())
+  userProfileId              String         @map("user_profile_id")
+  userProfile                UserProfile    @relation(fields: [userProfileId], references: [id])
+  resource                   String         // E.g. LLMs
+  day                        DateTime       @db.Date
+  usage                      Float          // In cents
+  created                    DateTime       @default(now())
+  updated                    DateTime       @updatedAt
+
+  @@unique([userProfileId, resource, day])
+  @@map("resource_quota_usage")
+  @@schema("public")
+}
+
+model Tech {
+  id                           String               @id @default(cuid())
+  isDefaultProvider            Boolean              @map("is_default_provider")
+  variantName                  String               @map("variant_name") @unique
+  provides                     String
+
+  ofRateLimitedApis            RateLimitedApi[]
+
+  @@map("tech")
+  @@schema("public")
+}
+
+// Mailing lists
+model MailingList {
+  id                       String        @id @default(cuid())
+  name                     String        @unique
+  title                    String        @unique
+  created                  DateTime      @default(now())
+  updated                  DateTime      @updatedAt
+
+  ofMailingListSubscribers  MailingListSubscriber[]
+
+  @@map("mailing_list")
+  @@schema("public")
+}
+
+model MailingListSubscriber {
+  id                       String        @id @default(cuid())
+  mailingListId            String        @map("mailing_list_id")
+  mailingList              MailingList   @relation(fields: [mailingListId], references: [id])
+  email                    String
+  firstName                String?
+  verificationCode         String?       @map("verification_code")
+  verified                 DateTime?
+  created                  DateTime      @default(now())
+  updated                  DateTime      @updatedAt
+
+  @@unique([mailingListId, email])
+  @@map("mailing_list_subscriber")
+  @@schema("public")
+}
+
+// Tips
+
+model Tip {
+  id                           String               @id @default(cuid())
+  name                         String               @unique
+  tags                         String[]
+
+  ofTipGotIts                  TipGotIt[]
+
+  @@index([tags])
+  @@map("tip")
+  @@schema("public")
+}
+
+model TipGotIt {
+  id                           String               @id @default(cuid())
+  tipId                        String               @map("tip_id")
+  tip                          Tip                  @relation(fields: [tipId], references: [id])
+  userProfileId                String               @map("user_profile_id")
+  userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
+
+  @@unique([tipId, userProfileId], name: "tip_got_it_uq")
+  @@index([userProfileId])
+  @@map("tip_got_it")
+  @@schema("public")
+}

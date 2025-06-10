@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@apollo/client": "^3.10.4",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
+    "cookies-next": "^4.2.1",
+    "date-fns": "^3.6.0",
+    "next-auth": "^4.24.7",
+    "recoil": "^0.7.7"
+  }
+}
