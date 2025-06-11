@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client'
 import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model'
 
 // Models
@@ -11,7 +12,7 @@ export class ResourceQuotasMutateService {
 
   // Code
   async incQuotaUsage(
-          prisma: any,
+          prisma: PrismaClient,
           userProfileId: string,
           resource: string,
           amount: number) {
@@ -49,7 +50,7 @@ export class ResourceQuotasMutateService {
     }
 
     // Upsert the new record
-    await resourceQuotaUsage.upsert(
+    await resourceQuotaUsageModel.upsert(
             prisma,
             undefined,  // id
             userProfileId,
