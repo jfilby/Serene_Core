@@ -175,15 +175,29 @@ model Instance {
   isDefault                    Boolean              @map("is_default")
   isDemo                       Boolean              @map("is_demo")
   publicAccess                 String?              @map("public_access") @db.Char(1)  // E.g. R/W
-  basePathDocNodeId            String?              @map("base_path_doc_node_id")
+  // basePathDocNodeId            String?              @map("base_path_doc_node_id")
   // basePathDocNode              DocNode?             @relation("base_path", fields: [basePathDocNodeId], references: [id])
-  envVersionBranchId           String?              @map("env_version_branch_id")
+  // envVersionBranchId           String?              @map("env_version_branch_id")
   // envVersionBranch             VersionBranch?       @relation("env_version_branch", fields: [envVersionBranchId], references: [id])
 
   ofInstances                  Instance[]           @relation("parent")
 
   @@unique([userProfileId, parentId, name])
   @@map("instance")
+  @@schema("public")
+}
+
+model InstanceSetting {
+  id                           String               @id @default(cuid())
+  instanceId                   String               @map("instance_id")
+  instance                     Instance             @relation(fields: [instanceId], references: [id])
+  name                         String
+  value                        String
+  created                      DateTime             @default(now())
+  updated                      DateTime             @updatedAt
+
+  @@unique([instanceId, name], name: "instance_setting_uq")
+  @@map("instance_setting")
   @@schema("public")
 }
 
