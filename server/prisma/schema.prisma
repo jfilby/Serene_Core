@@ -181,6 +181,7 @@ model Instance {
   // envVersionBranch             VersionBranch?       @relation("env_version_branch", fields: [envVersionBranchId], references: [id])
 
   ofInstances                  Instance[]           @relation("parent")
+  ofInstanceSettings           InstanceSetting[]
 
   @@unique([userProfileId, parentId, name])
   @@map("instance")
@@ -263,10 +264,12 @@ model ResourceQuotaUsage {
 
 model Tech {
   id                           String               @id @default(cuid())
-  isDefaultProvider            Boolean              @map("is_default_provider")
   variantName                  String               @map("variant_name") @unique
   resource                     String
   pricingTier                  String               @map("pricing_tier")
+  isDefaultProvider            Boolean              @map("is_default_provider")
+  isEnabled                    Boolean              @map("is_enabled")
+  isAdminOnly                  Boolean              @map("is_admin_only")
 
   ofRateLimitedApis            RateLimitedApi[]
 
