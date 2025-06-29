@@ -351,7 +351,9 @@ model UserError {
   endUserProfile               UserProfile?         @relation("end_user_profile", fields: [endUserProfileId], references: [id])
   instanceId                   String?              @map("instance_id")
   instance                     Instance?            @relation(fields: [instanceId], references: [id])
+  origin                       String
   message                      String
+  techMessage                  String?              @map("tech_message")  // Meant for developers only
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
 
@@ -365,12 +367,13 @@ model UserErrorSummary {
   userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
   instanceId                   String?              @map("instance_id")
   instance                     Instance?            @relation(fields: [instanceId], references: [id])
+  origin                       String?
   message                      String               // Abstracts UserError.message (no user or time specific info)
-  count                        BigInt
+  count                        Int
 
   ofUserErrors                 UserError[]
 
-  @@unique([userProfileId, instanceId, message])
+  @@unique([userProfileId, instanceId, origin, message])
   @@map("user_error_summary")
   @@schema("public")
 }
