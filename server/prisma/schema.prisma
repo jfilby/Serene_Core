@@ -151,6 +151,9 @@ model UserProfile {
   ofUserGroups                UserGroup[]
   ofUserGroupMembers          UserGroupMember[]
   ofUserPreferences           UserPreference[]
+  ofUserErrors                UserError[]
+  ofEndUserErrors             UserError[]                @relation("end_user_profile")
+  ofUserErrorSummaries        UserErrorSummary[]
 
   @@map("user_profile")
   @@schema("public")
@@ -182,6 +185,8 @@ model Instance {
 
   ofInstances                  Instance[]           @relation("parent")
   ofInstanceSettings           InstanceSetting[]
+  ofUserErrors                 UserError[]
+  ofUserErrorSummaries         UserErrorSummary[]
 
   @@unique([userProfileId, parentId, name])
   @@map("instance")
@@ -331,5 +336,41 @@ model TipGotIt {
   @@unique([tipId, userProfileId], name: "tip_got_it_uq")
   @@index([userProfileId])
   @@map("tip_got_it")
+  @@schema("public")
+}
+
+// User-specific
+
+model UserError {
+  id                           String               @id @default(cuid())
+  userErrorSummaryId           String               @map("user_error_summary_id")
+  userErrorSummary             UserErrorSummary     @relation(fields: [userErrorSummaryId], references: [id])
+  userProfileId                String               @map("user_profile_id")
+  userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
+  endUserProfileId             String?              @map("end_user_profile_id")
+  endUserProfile               UserProfile?         @relation("end_user_profile", fields: [endUserProfileId], references: [id])
+  instanceId                   String?              @map("instance_id")
+  instance                     Instance?            @relation(fields: [instanceId], references: [id])
+  message                      String
+  created                      DateTime             @default(now())
+  updated                      DateTime             @updatedAt
+
+  @@map("user_error")
+  @@schema("public")
+}
+
+model UserErrorSummary {
+  id                           String               @id @default(cuid())
+  userProfileId                String               @map("user_profile_id")
+  userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
+  instanceId                   String?              @map("instance_id")
+  instance                     Instance?            @relation(fields: [instanceId], references: [id])
+  message                      String               // Abstracts UserError.message (no user or time specific info)
+  count                        BigInt
+
+  ofUserErrors                 UserError[]
+
+  @@unique([userProfileId, instanceId, message])
+  @@map("user_error_summary")
   @@schema("public")
 }
