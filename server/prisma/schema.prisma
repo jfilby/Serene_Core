@@ -148,6 +148,7 @@ model UserProfile {
   ofChatSessions              ChatSession[]
   ofChatSettings              ChatSettings[]
   ofExternalUserIntegrations  ExternalUserIntegration[]
+  ofFeatureFlags              FeatureFlag[]
   ofInstances                 Instance[]
   ofRateLimitedApiEvents      RateLimitedApiEvent[]
   ofResourceQuotaTotals       ResourceQuotaTotal[]
@@ -294,6 +295,21 @@ model ChatSettings {
   @@schema("public")
 }
 
+// Feature flags
+
+model FeatureFlag {
+  id                           String               @id @default(cuid())
+  userProfileId                String?              @map("user_profile_id")
+  userProfile                  UserProfile?         @relation(fields: [userProfileId], references: [id])
+  instanceId                   String?              @map("instance_id")
+  instance                     Instance?            @relation(fields: [instanceId], references: [id])
+  name                         String
+  enabled                      Boolean
+
+  @@map("feature_flag")
+  @@schema("public")
+}
+
 // Instances
 
 model Instance {
@@ -320,6 +336,7 @@ model Instance {
 
   ofChatMessagesCreated        ChatMessageCreated[]
   ofChatSessions               ChatSession[]
+  ofFeatureFlags               FeatureFlag[]
   ofInstances                  Instance[]           @relation("parent")
   ofInstanceSettings           InstanceSetting[]
   ofUserErrors                 UserError[]
@@ -454,6 +471,7 @@ model TechProviderApiKey {
 }
 
 // Mailing lists
+
 model MailingList {
   id                       String        @id @default(cuid())
   name                     String        @unique
