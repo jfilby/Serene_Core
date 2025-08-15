@@ -6,9 +6,13 @@ export class ConsoleService {
 
   async askQuestion(query: string): Promise<string> {
 
+    // Reuse the class-level interface
     stdout.write(query)
     const answer = await this.rl.question('')
-    this.rl.close()
     return answer
+  }
+
+  close(): void {
+    this.rl.close()
   }
 }
