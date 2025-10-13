@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "^3.10.4",
+    "@apollo/client": "^4.0.7",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "cookies-next": "^4.2.1",
