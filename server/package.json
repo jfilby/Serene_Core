@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "prisma": "^6.19.2",
-    "@prisma/client": "^6.19.2"
+    "@prisma/client": "^6.19.2",
+    "chalk": "^5.6.2",
+    "prisma": "^6.19.2"
   },
   "devDependencies": {
     "@types/node": "^24.0.7"
