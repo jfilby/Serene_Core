@@ -1,4 +1,6 @@
 {
+  "name": "serene-core-client",
+  "version": "0.1.0",
   "dependencies": {
     "@apollo/client": "^4.0.7",
     "@mui/icons-material": "^5.15.18",
