@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "types": ["node"],
-    "module": "commonjs",
-    "outDir": "dist",
-    "rootDir": "src",
-  }
+    "target": "ES2015",             // Minimum for modern JS features
+    "module": "CommonJS",           // Node-compatible modules
+    "outDir": "dist",               // Compiled files go here
+    "rootDir": "src",               // Source code here
+    "declaration": true,            // Generate .d.ts types for consumers
+    "strict": true,                 // Strict type checking
+    "esModuleInterop": true,        // Allow default imports from CommonJS
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"]
 }
