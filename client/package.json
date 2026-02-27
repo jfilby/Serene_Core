@@ -8,6 +8,7 @@
     "cookies-next": "^4.2.1",
     "date-fns": "^3.6.0",
     "next-auth": "^4.24.7",
+    "react-markdown": "10.1.0",
     "react-syntax-highlighter": "^15.6.6",
     "typescript": "^5.9.3"
   },
