@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/prisma/client'
 import { CustomError } from '../../types/errors'
 import { ResourceQuotaTotalModel } from '../../models/quotas/resource-quota-total-model'
 import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model'

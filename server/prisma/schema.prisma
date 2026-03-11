@@ -6,11 +6,11 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
   schemas  = ["public"]
 }
 
@@ -131,15 +131,15 @@ model UserPreference {
 }
 
 model UserProfile {
-  id                        String        @id @default(cuid())
-  userId                    String?       @map("user_id") @unique // Map to NextAuth's User model
-  user                      User?         @relation(fields: [userId], references: [id])
-  isAdmin                   Boolean       @map("is_admin")
-  ownerType                 String?       @map("owner_type")
-  roles                     String[]
-  created                   DateTime      @default(now())
-  updated                   DateTime      @updatedAt
-  deletePending             DateTime?     @map("delete_pending")  // Start date/time of delete pending
+  id                          String        @id @default(cuid())
+  userId                      String?       @map("user_id") @unique  // Map to NextAuth's User model
+  user                        User?         @relation(fields: [userId], references: [id])
+  isAdmin                     Boolean       @map("is_admin")
+  ownerType                   String?       @map("owner_type")
+  roles                       String[]
+  created                     DateTime      @default(now())
+  updated                     DateTime      @updatedAt
+  deletePending               DateTime?     @map("delete_pending")   // Start date/time of delete pending
 
   ofAgentUsers                AgentUser[]
   ofChatMessagesCreated       ChatMessageCreated[]
@@ -321,6 +321,7 @@ model Instance {
   userProfileId                String               @map("user_profile_id")
   userProfile                  UserProfile          @relation(fields: [userProfileId], references: [id])
   status                       String               @db.Char(1)
+  key                          String
   name                         String
   created                      DateTime             @default(now())
   updated                      DateTime             @updatedAt
@@ -343,6 +344,7 @@ model Instance {
   ofUserErrors                 UserError[]
   ofUserErrorSummaries         UserErrorSummary[]
 
+  @@unique([userProfileId, parentId, key])
   @@unique([userProfileId, parentId, name])
   @@map("instance")
   @@schema("public")
