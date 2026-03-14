@@ -6,6 +6,9 @@
   "exports": {
     ".": "./dist/src/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@apollo/client": "^4.1.6",
     "@auth/core": "^0.34.3",
