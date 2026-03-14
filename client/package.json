@@ -1,18 +1,32 @@
 {
   "name": "serene-core-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "main": "./dist/index.js",
   "dependencies": {
-    "@apollo/client": "^4.0.7",
-    "@mui/icons-material": "^5.15.18",
-    "@mui/material": "^5.15.18",
-    "cookies-next": "^4.2.1",
-    "date-fns": "^3.6.0",
-    "next-auth": "^4.24.7",
+    "@apollo/client": "^4.1.6",
+    "@auth/core": "^0.34.3",
+    "@auth/prisma-adapter": "^2.11.1",
+    "@emotion/react": "^11.11.4",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "cookies-next": "^6.1.1",
+    "date-fns": "^4.1.0",
+    "next": "^16.1.6",
+    "next-auth": "^4.24.13",
+    "nodemailer": "^7.0.13",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-markdown": "10.1.0",
     "react-syntax-highlighter": "^15.6.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5"
   },
   "devDependencies": {
-    "@types/react-syntax-highlighter": "^15.5.13"
+    "@types/nodemailer": "^7.0.11"
   }
 }

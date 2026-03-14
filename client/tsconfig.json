@@ -9,10 +9,11 @@
     "strict": true,                 // Strict type checking
     "esModuleInterop": true,        // Allow default imports from CommonJS
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/prisma/*": ["./prisma/generated/prisma/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "skipLibCheck": true
   },
   "include": [
     "next-env.d.ts",
