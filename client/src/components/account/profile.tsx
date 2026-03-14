@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
-import ActionNotification from '../notifications/action'
+import { ActionNotification } from '../notifications/action'
 import { RestApiService } from '../../services/rest-api/service'
 import { FormControl, InputLabel, Typography } from '@mui/material'
 import { countries } from '../../services/locale/countries'
@@ -19,12 +19,12 @@ interface Props {
   session: any
 }
 
-export default function Profile({
-                          userProfile,
-                          clientUrl,
-                          serverUrl,
-                          session
-                        }: Props) {
+export function Profile({
+  userProfile,
+  clientUrl,
+  serverUrl,
+  session
+}: Props) {
 
   // Consts
   const personalDetails = 'personal details'
@@ -82,8 +82,8 @@ export default function Profile({
   async function setProfile() {
 
     const restApiService: RestApiService =
-            new RestApiService(clientUrl,
-                               serverUrl)
+      new RestApiService(clientUrl,
+        serverUrl)
 
     restApiService.submit({
       relativeUrl: '/api/account/profile/update',
@@ -103,7 +103,8 @@ export default function Profile({
       setNotificationSuccessText: setNotificationSuccessText,
       setNotificationSuccessOpened: setNotificationSuccessOpened,
       setNotificationErrorText: setNotificationErrorText,
-      setNotificationErrorOpened: setNotificationErrorOpened })
+      setNotificationErrorOpened: setNotificationErrorOpened
+    })
   }
 
   // Events
@@ -117,15 +118,15 @@ export default function Profile({
       // console.log(`fetching getUserPreferencesQuery for userProfileId: ${user.id}`)
 
       const results = await
-              fetchGetUserPreferencesQuery({
-                userProfileId: userProfile.id,
-                category: personalDetails,
-                keys: [
-                  profileService.fullName,
-                  profileService.firstName,
-                  profileService.countryCode,
-                ]
-              })
+        fetchGetUserPreferencesQuery({
+          userProfileId: userProfile.id,
+          category: personalDetails,
+          keys: [
+            profileService.fullName,
+            profileService.firstName,
+            profileService.countryCode,
+          ]
+        })
 
       // Set profile data
       const keyValues = results.data['getUserPreferences']
@@ -162,16 +163,16 @@ export default function Profile({
   return (
     <>
       {session ?
-       <>
-         <p>You're signed in: &nbsp;
-          <span style={{ color: 'gray', fontWeight: '600' }}>{session.user.email}</span>
-          <span style={{ marginLeft: '1em' }}>
-            (<a
-              href='#'
-              onClick={handleSignout}
-              className='btn-signin'>Sign out</a>)
-          </span>
-         </p>
+        <>
+          <p>You're signed in: &nbsp;
+            <span style={{ color: 'gray', fontWeight: '600' }}>{session.user.email}</span>
+            <span style={{ marginLeft: '1em' }}>
+              (<a
+                href='#'
+                onClick={handleSignout}
+                className='btn-signin'>Sign out</a>)
+            </span>
+          </p>
 
           {/* <p>userProfile: {JSON.stringify(userProfile)}</p> */}
 
@@ -213,7 +214,7 @@ export default function Profile({
                 }
               }}
               required />
-            <br/><br/>
+            <br /><br />
             <TextField
               fullWidth
               variant='outlined'
@@ -221,7 +222,7 @@ export default function Profile({
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required />
-            <br/><br/>
+            <br /><br />
             <FormControl fullWidth>
               <InputLabel
                 htmlFor='select-country'
@@ -245,7 +246,7 @@ export default function Profile({
                 ))}
               </Select>
             </FormControl>
-            <br/><br/>
+            <br /><br />
 
             <Button
               type='submit'
@@ -255,25 +256,25 @@ export default function Profile({
             </Button>
           </form>
           <ActionNotification
-              message='Updated.'
-              autoHideDuration={5000}
-              notificationOpened={notificationSuccessOpened}
-              setNotificationOpened={setNotificationSuccessOpened} />
+            message='Updated.'
+            autoHideDuration={5000}
+            notificationOpened={notificationSuccessOpened}
+            setNotificationOpened={setNotificationSuccessOpened} />
           <ActionNotification
-              message={notificationErrorText}
-              autoHideDuration={5000}
-              notificationOpened={notificationErrorOpened}
-              setNotificationOpened={setNotificationErrorOpened} />
-       </>
-       :
-       <>
-         <Typography variant='body1'>
-          You aren't signed in.
-         </Typography>
+            message={notificationErrorText}
+            autoHideDuration={5000}
+            notificationOpened={notificationErrorOpened}
+            setNotificationOpened={setNotificationErrorOpened} />
+        </>
+        :
+        <>
+          <Typography variant='body1'>
+            You aren't signed in.
+          </Typography>
 
-         <a href='#' onClick={handleSignin} className='btn-signin'>Sign in</a>
-       </>
+          <a href='#' onClick={handleSignin} className='btn-signin'>Sign in</a>
+        </>
       }
-     </>
+    </>
   )
 }

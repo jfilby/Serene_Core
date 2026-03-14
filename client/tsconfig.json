@@ -4,6 +4,7 @@
     "target": "ES2023",
     "module": "esnext",
     "moduleResolution": "bundler",
+    "rootDir": ".",
     "outDir": "dist",               // Compiled files go here
     "declaration": true,            // Generate .d.ts types for consumers
     "strict": true,                 // Strict type checking

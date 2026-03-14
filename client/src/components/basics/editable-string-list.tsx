@@ -9,12 +9,12 @@ export interface Props {
   onChange?: any
 }
 
-export default function EditableStringList({
-                          label,
-                          values,
-                          setValues,
-                          onChange
-                        }: Props) {
+export function EditableStringList({
+  label,
+  values,
+  setValues,
+  onChange
+}: Props) {
 
   const [input, setInput] = useState('')
   const [editIndex, setEditIndex] = useState<number | null>(null)
@@ -67,7 +67,7 @@ export default function EditableStringList({
         <IconButton edge='end' onClick={() => handleAddOrUpdate()}>
           {editIndex !== null ?
             <Check />
-          :
+            :
             <Add />
           }
         </IconButton>

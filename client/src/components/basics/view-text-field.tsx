@@ -7,11 +7,11 @@ interface Props {
   style?: any
 }
 
-export default function ViewTextField({
-                          label,
-                          value,
-                          style = {}
-                        }: Props) {
+export function ViewTextField({
+  label,
+  value,
+  style = {}
+}: Props) {
 
   // Render
   return (

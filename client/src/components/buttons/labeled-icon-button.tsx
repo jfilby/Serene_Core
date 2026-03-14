@@ -12,16 +12,16 @@ interface Props {
   style?: any
 }
 
-export default function LabeledIconButton({
-                          disabled,
-                          icon,
-                          label,
-                          onClick,
-                          color = grey[700],
-                          textColor = grey[500],
-                          backgroundColor = grey[100],
-                          style = {}
-                        }: Props) {
+export function LabeledIconButton({
+  disabled,
+  icon,
+  label,
+  onClick,
+  color = grey[700],
+  textColor = grey[500],
+  backgroundColor = grey[100],
+  style = {}
+}: Props) {
 
   // Consts
   const Icon = icon

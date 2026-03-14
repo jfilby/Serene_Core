@@ -9,11 +9,11 @@ interface Props {
   setNotificationOpened: any
 }
 
-export default function ActionNotification({
-                          message,
-                          autoHideDuration,
-                          notificationOpened,
-                          setNotificationOpened }: Props) {
+export function ActionNotification({
+  message,
+  autoHideDuration,
+  notificationOpened,
+  setNotificationOpened }: Props) {
 
   const handleNotificationClose =
     (event: React.SyntheticEvent | Event, reason?: string) => {

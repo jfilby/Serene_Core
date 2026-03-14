@@ -11,16 +11,16 @@ interface Props {
   style?: any
 }
 
-export default function TextAreaField({
-                          disabled,
-                          id,
-                          label,
-                          minRows = 5,
-                          onChange = {},
-                          required = false,
-                          value,
-                          style = {}
-                        }: Props) {
+export function TextAreaField({
+  disabled,
+  id,
+  label,
+  minRows = 5,
+  onChange = {},
+  required = false,
+  value,
+  style = {}
+}: Props) {
 
   // Render
   return (

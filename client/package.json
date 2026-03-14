@@ -1,7 +1,11 @@
 {
   "name": "serene-core-client",
-  "version": "0.1.1",
-  "main": "./dist/index.js",
+  "version": "0.1.6",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": "./dist/src/index.js"
+  },
   "dependencies": {
     "@apollo/client": "^4.1.6",
     "@auth/core": "^0.34.3",

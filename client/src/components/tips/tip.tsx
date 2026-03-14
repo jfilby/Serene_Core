@@ -13,15 +13,15 @@ interface Props {
   userProfileId: string
 }
 
-export default function Tip({
-                          name,
-                          label,
-                          text,
-                          setFocusRef = undefined,
-                          setTipVisible,
-                          style = {},
-                          userProfileId
-                        }: Props) {
+export function Tip({
+  name,
+  label,
+  text,
+  setFocusRef = undefined,
+  setTipVisible,
+  style = {},
+  userProfileId
+}: Props) {
 
   // GraphQL
   const [sendUpsertTipGotItMutation] =
@@ -44,11 +44,11 @@ export default function Tip({
       // Get tips data
       const { data } = await
         sendUpsertTipGotItMutation({
-            variables: {
-              name: name,
-              userProfileId: userProfileId
-            }
-          })
+          variables: {
+            name: name,
+            userProfileId: userProfileId
+          }
+        })
 
       // Set profile data
       const results = data.upsertTipGotIt

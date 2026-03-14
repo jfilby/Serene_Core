@@ -7,9 +7,9 @@ interface Props {
   mailingListName: string
 }
 
-export default function MailingListSignUp({
-                          mailingListName
-                        }: Props) {
+export function MailingListSignUp({
+  mailingListName
+}: Props) {
 
   // Types
   type AlertSeverity = 'error' | 'warning' | 'info' | 'success' | undefined
@@ -118,7 +118,7 @@ export default function MailingListSignUp({
           severity={alertSeverity}>
           {message}
         </Alert>
-      :
+        :
         <></>
       }
     </>

@@ -7,11 +7,11 @@ interface Props {
   style?: any
 }
 
-export default function CopyTextIcon({
-                          text,
-                          title = 'Copy',
-                          style = {}
-                        }: Props) {
+export function CopyTextIcon({
+  text,
+  title = 'Copy',
+  style = {}
+}: Props) {
 
   const handleCopy = async () => {
     try {

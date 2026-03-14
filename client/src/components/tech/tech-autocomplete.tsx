@@ -18,16 +18,16 @@ interface Props {
   variant?: TextFieldVariants | undefined
 }
 
-export default function TechAutocomplete({
-                          disabled = false,
-                          label,
-                          onChange = () => {},
-                          setValue,
-                          style = {},
-                          value,
-                          values,
-                          variant = 'standard'
-                        }: Props) {
+export function TechAutocomplete({
+  disabled = false,
+  label,
+  onChange = () => { },
+  setValue,
+  style = {},
+  value,
+  values,
+  variant = 'standard'
+}: Props) {
 
   const selectedTech = values.find((tech) => tech.id === value) || null
 

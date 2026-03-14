@@ -8,12 +8,12 @@ interface Props {
   style?: any
 }
 
-export default function ViewLinkField({
-                          label,
-                          href,
-                          value,
-                          style = {}
-                        }: Props) {
+export function ViewLinkField({
+  label,
+  href,
+  value,
+  style = {}
+}: Props) {
 
   // Render
   return (

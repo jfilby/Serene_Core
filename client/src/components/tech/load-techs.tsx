@@ -8,11 +8,11 @@ interface Props {
   setTechs: any
 }
 
-export default function LoadTechByFilter({
-                          userProfileId,
-                          resource,
-                          setTechs
-                        }: Props) {
+export function LoadTechByFilter({
+  userProfileId,
+  resource,
+  setTechs
+}: Props) {
 
   // GraphQL
   const { refetch: fetchTechsQuery } =
@@ -35,10 +35,10 @@ export default function LoadTechByFilter({
 
     // Query
     const { data } = await
-            fetchTechsQuery({
-              userProfileId: userProfileId,
-              resource: resource
-            })
+      fetchTechsQuery({
+        userProfileId: userProfileId,
+        resource: resource
+      })
 
     // Set results
     const results = data.getTechs

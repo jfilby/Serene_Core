@@ -7,11 +7,11 @@ interface Props {
   style?: any
 }
 
-export default function ViewMarkdownField({
-                          label,
-                          value,
-                          style = {}
-                        }: Props) {
+export function ViewMarkdownField({
+  label,
+  value,
+  style = {}
+}: Props) {
 
   // Render
   return (

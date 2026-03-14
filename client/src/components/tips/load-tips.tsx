@@ -9,11 +9,11 @@ interface Props {
   setTips: any
 }
 
-export default function LoadTips({
-                          userProfileId,
-                          tipTags,
-                          setTips
-                        }: Props) {
+export function LoadTips({
+  userProfileId,
+  tipTags,
+  setTips
+}: Props) {
 
   // GraphQL
   const { refetch: fetchGetTipsByUserProfileIdAndTagsQuery } =
@@ -36,11 +36,11 @@ export default function LoadTips({
     // Get tips data
     const { data } = await
       fetchGetTipsByUserProfileIdAndTagsQuery({
-          variables: {
-            userProfileId: userProfileId,
-            tags: tipTags
-          }
-        })
+        variables: {
+          userProfileId: userProfileId,
+          tags: tipTags
+        }
+      })
 
     // Set profile data
     const results = data.getTipsByUserProfileIdAndTags
