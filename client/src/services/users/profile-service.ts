@@ -1,4 +1,4 @@
-import { countries } from '../locale/countries'
+import { countries } from '../locale/countries.js'
 
 export class ProfileService {
 

@@ -1,4 +1,4 @@
-import { getUserPreferencesQuery } from '../../apollo/user-preferences'
+import { getUserPreferencesQuery } from '../../apollo/user-preferences.js'
 
 export class UserPreferencesService {
 

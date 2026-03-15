@@ -1,8 +1,8 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { UserProfileModel } from '../../models/users/user-profile-model'
-import { UserModel } from '../../models/users/user-model'
-import { UserPreferenceService } from '../user-preference/service'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { UserProfileModel } from '../../models/users/user-profile-model.js'
+import { UserModel } from '../../models/users/user-model.js'
+import { UserPreferenceService } from '../user-preference/service.js'
 
 export class UsersService {
 

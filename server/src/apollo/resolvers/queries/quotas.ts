@@ -1,4 +1,4 @@
-import { ResourceQuotasQueryService } from '../../../services/quotas/query-service'
+import { ResourceQuotasQueryService } from '../../../services/quotas/query-service.js'
 
 // Services
 const resourceQuotasService = new ResourceQuotasQueryService()

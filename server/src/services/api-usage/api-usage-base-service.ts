@@ -1,8 +1,8 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { TechModel } from '../../models/tech/tech-model'
-import { RateLimitedApiModel } from '../../models/tech/rate-limited-api-model'
-import { RateLimitedApiEventModel } from '../../models/tech/rate-limited-api-event-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { TechModel } from '../../models/tech/tech-model.js'
+import { RateLimitedApiModel } from '../../models/tech/rate-limited-api-model.js'
+import { RateLimitedApiEventModel } from '../../models/tech/rate-limited-api-event-model.js'
 
 export class ApiUsageBaseService {
 

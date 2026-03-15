@@ -1,4 +1,4 @@
-import { UserPreferenceModel } from '../../../models/users/user-preference-model'
+import { UserPreferenceModel } from '../../../models/users/user-preference-model.js'
 
 // Services
 const userPreferenceModel = new UserPreferenceModel()

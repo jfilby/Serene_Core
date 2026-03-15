@@ -1,6 +1,6 @@
-const fs = require('fs')
-const path = require('path')
-import { WalkDirConfig } from './types'
+import fs from 'node:fs'
+import path from 'node:path'
+import { WalkDirConfig } from './types.js'
 
 export class WalkDirService {
 

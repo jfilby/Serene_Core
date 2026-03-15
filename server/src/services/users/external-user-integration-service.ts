@@ -1,6 +1,6 @@
-import { PrismaClient } from '@/prisma/client'
-import { ExternalUserIntegrationModel } from '../../models/users/external-user-integration-model'
-import { UserProfileModel } from '../../models/users/user-profile-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { ExternalUserIntegrationModel } from '../../models/users/external-user-integration-model.js'
+import { UserProfileModel } from '../../models/users/user-profile-model.js'
 
 export class ExternalUserIntegrationService {
 

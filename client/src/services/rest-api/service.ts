@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
-import router from 'next/router'
-import { postToServerHeaders } from './request'
-import { UtilsService } from '../utils/service'
+import { postToServerHeaders } from './request.js'
+import { UtilsService } from '../utils/service.js'
 
 interface SubmitProps {
   relativeUrl: string
@@ -96,7 +95,7 @@ export class RestApiService {
           const utilsService: UtilsService = new UtilsService()
           const baseUrl = utilsService.getBaseUrl(window.location.href)
 
-          router.push(`${baseUrl}${routeOnSuccess}`)
+          window.location.href = `${baseUrl}${routeOnSuccess}`
         }
       } else {
 

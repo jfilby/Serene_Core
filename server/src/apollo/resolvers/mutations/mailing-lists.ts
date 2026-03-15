@@ -1,4 +1,4 @@
-import { MailingListSubscriberService } from '../../../services/mailing-lists/mailing-list-subscriber-service'
+import { MailingListSubscriberService } from '../../../services/mailing-lists/mailing-list-subscriber-service.js'
 
 // Services
 const mailingListSubscriberService = new MailingListSubscriberService()

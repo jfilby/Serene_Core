@@ -1,6 +1,6 @@
-import { PrismaClient } from '@/prisma/client'
-import { UserGroupMemberModel } from '../../models/users/user-group-member-model'
-import { UserGroupModel } from '../../models/users/user-group-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { UserGroupMemberModel } from '../../models/users/user-group-member-model.js'
+import { UserGroupModel } from '../../models/users/user-group-model.js'
 
 export class UsersGroupService {
 

@@ -1,8 +1,8 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { ResourceQuotaTotalModel } from '../../models/quotas/resource-quota-total-model'
-import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model'
-import { UsersService } from '../users/service'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { ResourceQuotaTotalModel } from '../../models/quotas/resource-quota-total-model.js'
+import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model.js'
+import { UsersService } from '../users/service.js'
 
 // Model
 const resourceQuotaTotalModel = new ResourceQuotaTotalModel()

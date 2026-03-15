@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require('uuid')
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { ChatParticipantModel } from './chat-participant-model'
+import { v4 as uuidv4 } from 'uuid'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { ChatParticipantModel } from './chat-participant-model.js'
 
 // Models
 const chatParticipantModel = new ChatParticipantModel()

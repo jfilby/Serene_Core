@@ -1,6 +1,7 @@
 {
   "name": "serene-core-client",
-  "version": "0.1.6",
+  "version": "0.1.9",
+  "type": "module",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
   "exports": {
@@ -30,7 +31,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-markdown": "10.1.0",
-    "react-syntax-highlighter": "^15.6.6",
+    "react-syntax-highlighter": "^16.1.1",
     "typescript": "^5"
   },
   "devDependencies": {

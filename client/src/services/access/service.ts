@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next'
-import { isAdminUserQuery } from '../../apollo/access'
-import { UsersService } from '../users/user-service'
+import { isAdminUserQuery } from '../../apollo/access.js'
+import { UsersService } from '../users/user-service.js'
 
 interface ReqRes {
   req: any

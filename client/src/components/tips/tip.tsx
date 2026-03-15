@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client/react'
-import { upsertTipGotItMutation } from '../../apollo/tips'
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material'
+import { upsertTipGotItMutation } from '../../apollo/tips.js'
 
 // Component function interface
 interface Props {

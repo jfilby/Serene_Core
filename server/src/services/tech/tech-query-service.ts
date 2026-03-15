@@ -1,7 +1,7 @@
-import { PrismaClient, Tech } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { SereneCoreServerTypes } from '../../types/user-types'
-import { TechModel } from '../../models/tech/tech-model'
+import { PrismaClient, Tech } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { SereneCoreServerTypes } from '../../types/user-types.js'
+import { TechModel } from '../../models/tech/tech-model.js'
 
 // Models
 const techModel = new TechModel()

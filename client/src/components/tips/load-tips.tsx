@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useQuery } from '@apollo/client/react'
-import { getTipsByUserProfileIdAndTagsQuery } from '../../apollo/tips'
+import { getTipsByUserProfileIdAndTagsQuery } from '../../apollo/tips.js'
 
 // Component function interface
 interface Props {

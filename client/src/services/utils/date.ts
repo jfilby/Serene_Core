@@ -1,4 +1,4 @@
-const { format } = require('date-fns')
+import { format } from 'date-fns'
 
 export function timestampToDateTime(timestamp: number) {
 

@@ -2,10 +2,10 @@ import * as fs from 'fs'
 import * as path from 'path'
 import chalk from 'chalk'
 import { input } from '@inquirer/prompts'
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { TechProviderApiKeyModel } from '../../models/tech/tech-provider-api-key-model'
-import { TechProviderModel } from '../../models/tech/tech-provider-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { TechProviderApiKeyModel } from '../../models/tech/tech-provider-api-key-model.js'
+import { TechProviderModel } from '../../models/tech/tech-provider-model.js'
 
 // Models
 const techProviderApiKeyModel = new TechProviderApiKeyModel()

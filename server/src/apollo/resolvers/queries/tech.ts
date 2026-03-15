@@ -1,5 +1,5 @@
-import { TechQueryService } from '../../../services/tech/tech-query-service'
-import { UsersService } from '../../../services/users/service'
+import { TechQueryService } from '../../../services/tech/tech-query-service.js'
+import { UsersService } from '../../../services/users/service.js'
 
 // Services
 const techQueryService = new TechQueryService()

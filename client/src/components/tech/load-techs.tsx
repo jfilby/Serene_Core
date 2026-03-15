@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useQuery } from '@apollo/client/react'
-import { getTechsQuery } from '../../apollo/techs'
+import { getTechsQuery } from '../../apollo/techs.js'
 
 interface Props {
   userProfileId: string

@@ -1,6 +1,6 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { UsersService } from '../../services/users/service'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { UsersService } from '../../services/users/service.js'
 
 export class ChatParticipantModel {
 

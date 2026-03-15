@@ -1,4 +1,4 @@
-import { ProfileService } from '../../../services/users/profile-service'
+import { ProfileService } from '../../../services/users/profile-service.js'
 
 // Services
 const profileService = new ProfileService()

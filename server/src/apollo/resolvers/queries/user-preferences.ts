@@ -1,4 +1,4 @@
-import { UserPreferenceService } from '../../../services/user-preference/service'
+import { UserPreferenceService } from '../../../services/user-preference/service.js'
 
 // Services
 const userPreferenceService = new UserPreferenceService()

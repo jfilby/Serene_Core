@@ -1,4 +1,4 @@
-import { AccessService } from '../../../services/access/access-service'
+import { AccessService } from '../../../services/access/access-service.js'
 
 // Services
 const accessService = new AccessService()

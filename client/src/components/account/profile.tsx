@@ -1,16 +1,13 @@
 import { signIn, signOut } from 'next-auth/react'
 import { useQuery } from '@apollo/client/react'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Select from '@mui/material/Select'
+import { Button, FormControl, InputLabel, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { ActionNotification } from '../notifications/action'
-import { RestApiService } from '../../services/rest-api/service'
-import { FormControl, InputLabel, Typography } from '@mui/material'
-import { countries } from '../../services/locale/countries'
-import { getUserPreferencesQuery } from '../../apollo/user-preferences'
-import { UserPreferencesService } from '../../services/users/user-preferences-service'
-import { ProfileService } from '../../services/users/profile-service'
+import { ActionNotification } from '../notifications/action.js'
+import { RestApiService } from '../../services/rest-api/service.js'
+import { countries } from '../../services/locale/countries.js'
+import { getUserPreferencesQuery } from '../../apollo/user-preferences.js'
+import { UserPreferencesService } from '../../services/users/user-preferences-service.js'
+import { ProfileService } from '../../services/users/profile-service.js'
 
 interface Props {
   userProfile: any

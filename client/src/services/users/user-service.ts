@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next'
-import { getOrCreateSignedOutUserMutation, getOrCreateUserByEmailMutation, verifySignedInUserProfileIdQuery } from '../../apollo/users'
 import { getSession } from 'next-auth/react'
+import { getOrCreateSignedOutUserMutation, getOrCreateUserByEmailMutation, verifySignedInUserProfileIdQuery } from '../../apollo/users.js'
 
 interface ReqRes {
   req: any

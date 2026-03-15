@@ -1,6 +1,6 @@
-import { PrismaClient } from '@/prisma/client'
-import { Encrypter } from '../../services/access/encrypt-service'
-import { CustomError } from '../../types/errors'
+import { PrismaClient } from '@/prisma/client.js'
+import { Encrypter } from '../../services/access/encrypt-service.js'
+import { CustomError } from '../../types/errors.js'
 
 export class ChatMessageModel {
 

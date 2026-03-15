@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/prisma/client'
-import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { ResourceQuotaUsageModel } from '../../models/quotas/resource-quota-usage-model.js'
 
 // Models
 const resourceQuotaUsageModel = new ResourceQuotaUsageModel()

@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/prisma/client'
-import { UsersService } from '../users/service'
+import { PrismaClient } from '@/prisma/client.js'
+import { UsersService } from '../users/service.js'
 
 export class AccessService {
 

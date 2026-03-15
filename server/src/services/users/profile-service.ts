@@ -1,10 +1,10 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
-import { UserModel } from '../../models/users/user-model'
-import { UserPreferenceModel } from '../../models/users/user-preference-model'
-import { UserProfileModel } from '../../models/users/user-profile-model'
-import { countries } from '../locale/countries'
-import { UserPreferenceService } from '../user-preference/service'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
+import { UserModel } from '../../models/users/user-model.js'
+import { UserPreferenceModel } from '../../models/users/user-preference-model.js'
+import { UserProfileModel } from '../../models/users/user-profile-model.js'
+import { countries } from '../locale/countries.js'
+import { UserPreferenceService } from '../user-preference/service.js'
 
 interface ReqRes {
   req: any

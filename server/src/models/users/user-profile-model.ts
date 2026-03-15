@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/prisma/client'
-import { UserTypes } from '../../types/user-types'
+import { PrismaClient } from '@/prisma/client.js'
+import { UserTypes } from '../../types/user-types.js'
 
 export class UserProfileModel {
 

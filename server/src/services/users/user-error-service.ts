@@ -1,6 +1,6 @@
-import { PrismaClient } from '@/prisma/client'
-import { UserErrorModel } from '../../models/users/user-error-model'
-import { UserErrorSummaryModel } from '../../models/users/user-error-summary-model'
+import { PrismaClient } from '@/prisma/client.js'
+import { UserErrorModel } from '../../models/users/user-error-model.js'
+import { UserErrorSummaryModel } from '../../models/users/user-error-summary-model.js'
 
 // Models
 const userErrorModel = new UserErrorModel()

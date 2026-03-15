@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Box, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+// @ts-ignore
+import oneLight from 'react-syntax-highlighter/dist/esm/styles/prism/one-light.js'
 
 interface Props {
   str: string

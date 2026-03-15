@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
-import { mailingListSignupMutation } from '../../apollo/mailing-lists'
 import { Alert, Button, TextField } from '@mui/material'
+import { mailingListSignupMutation } from '../../apollo/mailing-lists.js'
 
 interface Props {
   mailingListName: string

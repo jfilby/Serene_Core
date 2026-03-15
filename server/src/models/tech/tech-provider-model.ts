@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/prisma/client'
-import { CustomError } from '../../types/errors'
+import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
 
 export class TechProviderModel {
 
