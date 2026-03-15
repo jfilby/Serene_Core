@@ -238,6 +238,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           parentId: parentId,
           key: key
@@ -274,6 +281,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           parentId: parentId,
           name: name
@@ -316,6 +330,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           parentId: parentId,
           key: key,
@@ -359,6 +380,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           parentId: parentId,
           name: name,
@@ -387,6 +415,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           userProfileId: userProfileId,
           name: name
@@ -431,6 +466,13 @@ export class InstanceModel {
 
     try {
       instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
         where: {
           parent: {
             userProfileId: userProfileId,
