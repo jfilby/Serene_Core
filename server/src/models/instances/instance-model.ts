@@ -1,4 +1,5 @@
 import { Prisma } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
 
 export class InstanceModel {
 
@@ -8,6 +9,7 @@ export class InstanceModel {
   // Code
   async create(
     prisma: Prisma.TransactionClient,
+    publicId: string | null,
     parentId: string | null,
     userProfileId: string,
     instanceType: string,
@@ -26,6 +28,7 @@ export class InstanceModel {
     try {
       return await prisma.instance.create({
         data: {
+          publicId: publicId,
           parent: parentId != null ? {
             connect: {
               id: parentId
@@ -402,6 +405,43 @@ export class InstanceModel {
     return instance
   }
 
+  async getByPublicId(
+    prisma: Prisma.TransactionClient,
+    publicId: string) {
+
+    // Debug
+    const fnName = `${this.clName}.getByPublicId()`
+
+    // Validate
+    if (publicId == null) {
+      throw new CustomError(`${fnName}: publicId == null`)
+    }
+
+    // Query
+    var instance: any
+
+    try {
+      instance = await prisma.instance.findFirst({
+        include: {
+          userProfile: {
+            include: {
+              user: true
+            }
+          }
+        },
+        where: {
+          publicId: publicId
+        }
+      })
+    } catch (error: any) {
+      console.error(`${fnName}: error: ${error}`)
+      throw 'Prisma error'
+    }
+
+    // Return
+    return instance
+  }
+
   async getByUserProfileIdAndName(
     prisma: Prisma.TransactionClient,
     userProfileId: string,
@@ -495,6 +535,7 @@ export class InstanceModel {
   async update(
     prisma: Prisma.TransactionClient,
     id: string,
+    publicId: string | null | undefined,
     parentId: string | null | undefined,
     userProfileId: string | undefined,
     instanceType: string | undefined,
@@ -513,6 +554,7 @@ export class InstanceModel {
     try {
       return await prisma.instance.update({
         data: {
+          publicId: publicId,
           parentId: parentId,
           userProfileId: userProfileId,
           instanceType: instanceType,
@@ -576,6 +618,7 @@ export class InstanceModel {
 
   async upsert(prisma: Prisma.TransactionClient,
     id: string | undefined,
+    publicId: string | null | undefined,
     parentId: string | null | undefined,
     userProfileId: string | undefined,
     instanceType: string | undefined,
@@ -629,6 +672,11 @@ export class InstanceModel {
     if (id == null) {
 
       // Validate for create (mainly for type validation of the create call)
+      if (publicId === undefined) {
+        console.error(`${fnName}: id is null and publicId is undefined`)
+        throw 'Prisma error'
+      }
+
       if (parentId === undefined) {
         console.error(`${fnName}: id is null and parentId is undefined`)
         throw 'Prisma error'
@@ -683,6 +731,7 @@ export class InstanceModel {
       return await
         this.create(
           prisma,
+          publicId,
           parentId,
           userProfileId,
           instanceType,
@@ -700,6 +749,7 @@ export class InstanceModel {
         this.update(
           prisma,
           id,
+          publicId,
           parentId,
           userProfileId,
           instanceType,

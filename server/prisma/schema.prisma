@@ -132,6 +132,7 @@ model UserPreference {
 
 model UserProfile {
   id                          String        @id @default(cuid())
+  publicId                    String?       @map("public_id") @unique
   userId                      String?       @map("user_id") @unique  // Map to NextAuth's User model
   user                        User?         @relation(fields: [userId], references: [id])
   isAdmin                     Boolean       @map("is_admin")
@@ -316,6 +317,7 @@ model FeatureFlag {
 model Instance {
   // An instance is a project
   id                           String               @id @default(cuid())
+  publicId                     String?              @map("public_id") @unique
   parentId                     String?              @map("parent_id")
   parent                       Instance?            @relation("parent", fields: [parentId], references: [id])
   userProfileId                String               @map("user_profile_id")

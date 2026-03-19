@@ -1,4 +1,5 @@
 import { PrismaClient } from '@/prisma/client.js'
+import { CustomError } from '../../types/errors.js'
 import { UserTypes } from '../../types/user-types.js'
 
 export class UserProfileModel {
@@ -8,9 +9,10 @@ export class UserProfileModel {
 
   // Code
   async create(prisma: PrismaClient,
-               userId: string | null,
-               isAdmin: boolean,
-               deletePending: Date | null) {
+    publicId: string | null,
+    userId: string | null,
+    isAdmin: boolean,
+    deletePending: Date | null) {
 
     // Debug
     const fnName = `${this.clName}.create()`
@@ -19,23 +21,24 @@ export class UserProfileModel {
     try {
       return await prisma.userProfile.create({
         data: {
+          publicId: publicId,
           userId: userId,
           isAdmin: isAdmin,
           deletePending: deletePending
         }
       })
-    } catch(error: any) {
+    } catch (error: any) {
       console.error(`${fnName}: error: ${error}`)
       throw 'Prisma error'
     }
   }
 
   async getById(prisma: PrismaClient,
-                id: string) {
+    id: string) {
 
     // Debug
     const fnName = `${this.clName}.getById()`
-  
+
     // Get record
     try {
       return await prisma.userProfile.findUnique({
@@ -43,7 +46,34 @@ export class UserProfileModel {
           id: id
         }
       })
-    } catch(error: any) {
+    } catch (error: any) {
+      if (!(error instanceof error.NotFound)) {
+        console.error(`${fnName}: error: ${error}`)
+        throw 'Prisma error'
+      }
+    }
+  }
+
+  async getByPublicId(
+    prisma: PrismaClient,
+    publicId: string) {
+
+    // Debug
+    const fnName = `${this.clName}.getByPublicId()`
+
+    // Validate
+    if (publicId == null) {
+      throw new CustomError(`${fnName}: publicId == null`)
+    }
+
+    // Get record
+    try {
+      return await prisma.userProfile.findFirst({
+        where: {
+          publicId: publicId
+        }
+      })
+    } catch (error: any) {
       if (!(error instanceof error.NotFound)) {
         console.error(`${fnName}: error: ${error}`)
         throw 'Prisma error'
@@ -52,12 +82,17 @@ export class UserProfileModel {
   }
 
   async getByUserId(
-          prisma: PrismaClient,
-          userId: string) {
+    prisma: PrismaClient,
+    userId: string) {
 
     // Debug
     const fnName = `${this.clName}.getByUserId()`
-  
+
+    // Validate
+    if (userId == null) {
+      throw new CustomError(`${fnName}: userId == null`)
+    }
+
     // Get record
     try {
       return await prisma.userProfile.findFirst({
@@ -65,7 +100,7 @@ export class UserProfileModel {
           userId: userId
         }
       })
-    } catch(error: any) {
+    } catch (error: any) {
       if (!(error instanceof error.NotFound)) {
         console.error(`${fnName}: error: ${error}`)
         throw 'Prisma error'
@@ -74,14 +109,14 @@ export class UserProfileModel {
   }
 
   async setOwnerType(
-          prisma: PrismaClient,
-          userProfile: any) {
+    prisma: PrismaClient,
+    userProfile: any) {
 
     // Debug
     const fnName = `${this.clName}.setOwnerType()`
 
-    console.log(`${fnName}: starting with userProfile: ` +
-                JSON.stringify(userProfile))
+    // console.log(`${fnName}: starting with userProfile: ` +
+    //   JSON.stringify(userProfile))
 
     // Return immediately if ownerType is set
     if (userProfile.ownerType != null) {
@@ -118,10 +153,11 @@ export class UserProfileModel {
   }
 
   async update(prisma: PrismaClient,
-               id: string,
-               userId: string | null | undefined,
-               isAdmin: boolean | undefined,
-               deletePending: Date | null | undefined) {
+    id: string,
+    publicId: string | null | undefined,
+    userId: string | null | undefined,
+    isAdmin: boolean | undefined,
+    deletePending: Date | null | undefined) {
 
     // Debug
     const fnName = `${this.clName}.update()`
@@ -130,6 +166,7 @@ export class UserProfileModel {
     try {
       return await prisma.userProfile.update({
         data: {
+          publicId: publicId,
           userId: userId,
           isAdmin: isAdmin
         },
@@ -137,29 +174,30 @@ export class UserProfileModel {
           id: id
         }
       })
-    } catch(error: any) {
+    } catch (error: any) {
       console.error(`${fnName}: error: ${error}`)
       throw 'Prisma error'
     }
   }
 
   async upsert(prisma: PrismaClient,
-               id: string | undefined,
-               userId: string | null | undefined,
-               isAdmin: boolean | undefined,
-               deletePending: Date | null | undefined) {
+    id: string | undefined,
+    publicId: string | null | undefined,
+    userId: string | null | undefined,
+    isAdmin: boolean | undefined,
+    deletePending: Date | null | undefined) {
 
     // Debug
     const fnName = `${this.clName}.upsert()`
 
     // If id isn't specified, but the unique keys are, try to get the record
     if (id == null &&
-        userId != null) {
+      userId != null) {
 
       const userProfile = await
-              this.getByUserId(
-                prisma,
-                userId)
+        this.getByUserId(
+          prisma,
+          userId)
 
       if (userProfile != null) {
         id = userProfile.id
@@ -170,6 +208,11 @@ export class UserProfileModel {
     if (id == null) {
 
       // Validate for create (mainly for type validation of the create call)
+      if (publicId === undefined) {
+        console.error(`${fnName}: id is null and publicId is undefined`)
+        throw 'Prisma error'
+      }
+
       if (userId === undefined) {
         console.error(`${fnName}: id is null and userId is undefined`)
         throw 'Prisma error'
@@ -187,21 +230,23 @@ export class UserProfileModel {
 
       // Create
       return await
-               this.create(
-                 prisma,
-                 userId,
-                 isAdmin,
-                 deletePending)
+        this.create(
+          prisma,
+          publicId,
+          userId,
+          isAdmin,
+          deletePending)
     } else {
 
       // Update
       return await
-               this.update(
-                 prisma,
-                 id,
-                 userId,
-                 isAdmin,
-                 deletePending)
+        this.update(
+          prisma,
+          id,
+          publicId,
+          userId,
+          isAdmin,
+          deletePending)
     }
   }
 }

@@ -34,6 +34,7 @@ export class ExternalUserIntegrationService {
     const userProfile = await
             this.userProfileModel.create(
               prisma,
+              null,       // publicId
               null,       // userId
               false,      // isAdmin
               null)       // deletePending

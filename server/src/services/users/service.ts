@@ -22,21 +22,22 @@ export class UsersService {
     // console.log('UsersService.createBlankUser(): start')
 
     return await this.userProfileModel.create(
-                   prisma,
-                   null,       // userId
-                   false,      // isAdmin
-                   null)       // deletePending
+      prisma,
+      null,       // publicId
+      null,       // userId
+      false,      // isAdmin
+      null)       // deletePending
   }
 
   async createDefaultUserPreferences(
-          prisma: PrismaClient,
-          userProfileId: string,
-          defaultUserPreferences: string | undefined) {
+    prisma: PrismaClient,
+    userProfileId: string,
+    defaultUserPreferences: string | undefined) {
 
     // console.log('createDefaultUserPreferences()')
 
     if (defaultUserPreferences == null ||
-        defaultUserPreferences === '') {
+      defaultUserPreferences === '') {
       return
     }
 
@@ -44,55 +45,56 @@ export class UsersService {
 
     for (const json of jsonArray) {
       await this.userPreferenceService.createIfNotExists(
-              prisma,
-              userProfileId,
-              json.category,
-              json.key,
-              json.value,
-              null)
+        prisma,
+        userProfileId,
+        json.category,
+        json.key,
+        json.value,
+        null)
     }
   }
 
   async createUserByEmail(
-          prisma: PrismaClient,
-          email: string) {
+    prisma: PrismaClient,
+    email: string) {
 
     const user = await
-            this.userModel.create(
-              prisma,
-              email,
-              undefined)  // name
+      this.userModel.create(
+        prisma,
+        email,
+        undefined)  // name
 
     const userProfile = await
-            this.userProfileModel.create(
-              prisma,
-              user.id,
-              false,  // isAdmin
-              null)   // deletePending
+      this.userProfileModel.create(
+        prisma,
+        null,   // publicId
+        user.id,
+        false,  // isAdmin
+        null)   // deletePending
 
     return userProfile.id
   }
 
   async getById(prisma: PrismaClient,
-                userProfileId: string) {
+    userProfileId: string) {
 
     return await this.userProfileModel.getById(
-             prisma,
-             userProfileId)
+      prisma,
+      userProfileId)
   }
 
   async getUserByUserProfileId(
-          prisma: PrismaClient,
-          userProfileId: string) {
+    prisma: PrismaClient,
+    userProfileId: string) {
 
     // Debug
     const fnName = `${this.clName}.getUserByUserProfileId()`
 
     // Get userProfile
     const userProfile = await
-            this.getById(
-              prisma,
-              userProfileId)
+      this.getById(
+        prisma,
+        userProfileId)
 
     // Validate
     if (userProfile == null) {
@@ -104,15 +106,15 @@ export class UsersService {
       return null
     } else {
       return await this.userModel.getById(
-                     prisma,
-                     userProfile.userId)
+        prisma,
+        userProfile.userId)
     }
   }
 
   async getOrCreateSignedOutUser(
-          prisma: PrismaClient,
-          signedOutId: string,
-          defaultUserPreferences: string) {
+    prisma: PrismaClient,
+    signedOutId: string,
+    defaultUserPreferences: string) {
 
     // Debug
     const fnName = `${this.clName}.getOrCreateSignedOutUser()`
@@ -154,18 +156,18 @@ export class UsersService {
 
     // Create default user preferences
     await this.createDefaultUserPreferences(
-            prisma,
-            signedOutId,
-            defaultUserPreferences)
+      prisma,
+      signedOutId,
+      defaultUserPreferences)
 
     // Return signedOutId
     return signedOutUserProfile
   }
 
   async getOrCreateUserByEmail(
-          prisma: PrismaClient,
-          email: string,
-          defaultUserPreferences: string | undefined) {
+    prisma: PrismaClient,
+    email: string,
+    defaultUserPreferences: string | undefined) {
 
     // Debug
     const fnName = `${this.clName}.getOrCreateUserByEmail()`
@@ -174,9 +176,9 @@ export class UsersService {
 
     // Get/create user record
     var signedInUser = await
-          this.userModel.getByEmail(
-            prisma,
-            email)
+      this.userModel.getByEmail(
+        prisma,
+        email)
 
     if (signedInUser == null) {
 
@@ -192,9 +194,9 @@ export class UsersService {
     //             `records where signedInUser.id = ${signedInUser.id}`)
 
     var signedInUserProfile = await
-          this.userProfileModel.getByUserId(
-            prisma,
-            signedInUser.id)
+      this.userProfileModel.getByUserId(
+        prisma,
+        signedInUser.id)
 
     // console.log(`signedInUserProfile: ` + JSON.stringify(signedInUserProfile))
 
@@ -204,6 +206,7 @@ export class UsersService {
       signedInUserProfile = await
         this.userProfileModel.create(
           prisma,
+          null,             // publicId
           signedInUser.id,  // userId
           false,            // isAdmin
           null)             // deletePending
@@ -211,45 +214,45 @@ export class UsersService {
 
     // Create default user preferences
     await this.createDefaultUserPreferences(
-            prisma,
-            signedInUserProfile.id,
-            defaultUserPreferences)
+      prisma,
+      signedInUserProfile.id,
+      defaultUserPreferences)
 
     return signedInUserProfile
   }
 
   async getUserProfileByEmail(
-          prisma: PrismaClient,
-          email: string) {
+    prisma: PrismaClient,
+    email: string) {
 
     // console.log(`UsersService.getUserProfileByEmail(): emailLower: ${emailLower}`)
 
     const user = await
-            this.userModel.getByEmail(
-              prisma,
-              email)
+      this.userModel.getByEmail(
+        prisma,
+        email)
 
     if (user == null) {
       return null
     } else {
       return await this.userProfileModel.getByUserId(
-                     prisma,
-                     user.id)
+        prisma,
+        user.id)
     }
   }
 
   async verifyHumanUserProfile(
-          prisma: PrismaClient,
-          userProfileId: string) {
+    prisma: PrismaClient,
+    userProfileId: string) {
 
     // Debug
     const fnName = `${this.clName}.verifyHumanUserProfile()`
 
     // Get UserProfile record
     const userProfile = await
-            this.getById(
-              prisma,
-              userProfileId)
+      this.getById(
+        prisma,
+        userProfileId)
 
     // Validate
     if (userProfile == null) {
@@ -260,23 +263,23 @@ export class UsersService {
     if (userProfile.ownerType == null) {
 
       await this.userProfileModel.setOwnerType(
-              prisma,
-              userProfile)
+        prisma,
+        userProfile)
     }
   }
 
   async verifySignedInUserProfileId(
-          prisma: PrismaClient,
-          userProfileId: string) {
+    prisma: PrismaClient,
+    userProfileId: string) {
 
     // Debug
     const fnName = `${this.clName}.verifySignedInUserProfileId()`
 
     // Get UserProfile
     const userProfile = await
-            this.userProfileModel.getById(
-              prisma,
-              userProfileId)
+      this.userProfileModel.getById(
+        prisma,
+        userProfileId)
 
     // Validate
     if (userProfile == null) {
