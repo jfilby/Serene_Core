@@ -6,6 +6,7 @@ interface Props {
   label: string
   minRows: number
   onChange: any
+  placeholder?: string
   required?: boolean
   value: string
   style?: any
@@ -17,6 +18,7 @@ export function TextAreaField({
   label,
   minRows = 5,
   onChange = {},
+  placeholder,
   required = false,
   value,
   style = {}
@@ -48,6 +50,7 @@ export function TextAreaField({
           id={id}
           minRows={minRows}
           onChange={onChange}
+          placeholder={placeholder}
           style={{
             width: '100%',
             padding: '12px',
