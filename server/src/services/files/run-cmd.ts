@@ -4,7 +4,7 @@ export async function runCmd(
   cwd: string,
   command: string,
   args: string[],
-  env: any,
+  env: any = {},
   exceptionOnError: boolean = false): Promise<{
     status: boolean,
     stdout: string
