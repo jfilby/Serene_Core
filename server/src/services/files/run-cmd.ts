@@ -4,6 +4,7 @@ export async function runCmd(
   cwd: string,
   command: string,
   args: string[],
+  env: any,
   exceptionOnError: boolean = false): Promise<{
     status: boolean,
     stdout: string
@@ -16,7 +17,8 @@ export async function runCmd(
   // Spawn
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
-      cwd,
+      cwd: cwd,
+      env: env,
       shell: process.platform === 'win32'
     })
 
