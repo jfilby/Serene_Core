@@ -1,8 +1,8 @@
 import { spawn } from 'node:child_process'
 
 export async function runCmd(
-  command: string,
   cwd: string,
+  command: string,
   args: string[],
   exceptionOnError: boolean = false): Promise<{
     status: boolean,
